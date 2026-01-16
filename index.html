@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PushGenius AI</title>
+
+<style>
+/* ================= GLOBAL ================= */
+body {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background: #0f172a;
+  color: #fff;
+}
+* { box-sizing: border-box; }
+
+/* ================= LAYOUT ================= */
+.app { display: flex; height: 100vh; }
+
+.sidebar {
+  width: 240px;
+  background: #020617;
+  padding: 20px;
+}
+.sidebar h2 { margin-bottom: 20px; }
+.sidebar a {
+  display: block;
+  padding: 10px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.sidebar a:hover, .sidebar a.active {
+  background: #1e293b;
+}
+
+main {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.page { display: none; }
+.page.active { display: block; }
+
+/* ================= CARDS ================= */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.card {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 14px;
+  font-size: 14px;
+}
+.card span {
+  display: block;
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+/* ================= TABLE ================= */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #020617;
+  border-radius: 12px;
+  overflow: hidden;
+}
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #1e293b;
+}
+th { background: #020617; }
+
+/* ================= BUTTON ================= */
+button {
+  background: #3b82f6;
+  border: none;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+button:hover { opacity: .9; }
+
+/* ================= MODAL ================= */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.7);
+}
+.modal-content {
+  background: #020617;
+  width: 420px;
+  margin: 8% auto;
+  padding: 20px;
+  border-radius: 16px;
+}
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #1e293b;
+  border: none;
+  color: white;
+  border-radius: 8px;
+}
+
+/* ================= AI ================= */
+.ai-box {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 14px;
+  margin-bottom: 16px;
+}
+
+/* ================= TOAST ================= */
+#toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #16a34a;
+  padding: 12px 18px;
+  border-radius: 10px;
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2>🚀 PushGenius AI</h2>
+    <a class="active" onclick="showPage('dashboard',this)">📊 Dashboard</a>
+    <a onclick="showPage('campaigns',this)">📢 Campaigns</a>
+    <a onclick="showPage('subscribers',this)">👥 Subscribers</a>
+    <a onclick="showPage('automation',this)">⚙️ Automation</a>
+    <a onclick="showPage('segments',this)">🎯 Segments</a>
+    <a onclick="showPage('analytics',this)">📈 Analytics</a>
+    <a onclick="showPage('ai',this)">✨ AI Tools</a>
+    <a onclick="showPage('templates',this)">📝 Templates</a>
+    <a onclick="showPage('integrations',this)">🔗 Integrations</a>
+    <a onclick="showPage('settings',this)">⚙️ Settings</a>
+  </aside>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="page active">
+      <h1>Dashboard</h1>
+      <div class="stats">
+        <div class="card">Subscribers <span id="subs">12480</span></div>
+        <div class="card">Campaigns <span>64</span></div>
+        <div class="card">CTR <span>6.4%</span></div>
+        <div class="card">Revenue <span>₹92,000</span></div>
+      </div>
+      <p>📡 Live updates every 5 seconds</p>
+    </section>
+
+    <!-- CAMPAIGNS -->
+    <section id="campaigns" class="page">
+      <h1>Campaigns</h1>
+      <button onclick="openModal()">+ Create Campaign</button>
+      <table>
+        <tr><th>Name</th><th>Status</th><th>Clicks</th><th>Revenue</th></tr>
+        <tr><td>Flash Sale</td><td>Sent</td><td>1,240</td><td>₹18,000</td></tr>
+        <tr><td>Welcome</td><td>Scheduled</td><td>—</td><td>—</td></tr>
+      </table>
+    </section>
+
+    <!-- SUBSCRIBERS -->
+    <section id="subscribers" class="page">
+      <h1>Subscribers</h1>
+      <p>Total: 12,480 | Active Today: 1,240</p>
+    </section>
+
+    <!-- AUTOMATION -->
+    <section id="automation" class="page">
+      <h1>Automation</h1>
+      <p>Trigger → Delay → Send (UI Demo)</p>
+    </section>
+
+    <!-- SEGMENTS -->
+    <section id="segments" class="page">
+      <h1>Segments</h1>
+      <p>Country = India | Device = Mobile</p>
+    </section>
+
+    <!-- ANALYTICS -->
+    <section id="analytics" class="page">
+      <h1>Analytics</h1>
+      <p>Top Campaign: Flash Sale</p>
+    </section>
+
+    <!-- AI -->
+    <section id="ai" class="page">
+      <h1>AI Tools ✨</h1>
+
+      <div class="ai-box">
+        <h3>AI Content Generator</h3>
+        <input id="aiTopic" placeholder="Topic">
+        <select id="aiTone">
+          <option>Urgent</option>
+          <option>Professional</option>
+          <option>Friendly</option>
+        </select>
+        <button onclick="generateAI()">Generate</button>
+        <p id="aiResult"></p>
+      </div>
+
+      <div class="ai-box">
+        <h3>Send Time Optimizer</h3>
+        <progress value="78" max="100"></progress>
+        <p>Best time: 7:30 PM</p>
+      </div>
+    </section>
+
+    <!-- TEMPLATES -->
+    <section id="templates" class="page">
+      <h1>Templates</h1>
+      <ul>
+        <li>Welcome</li>
+        <li>Flash Sale</li>
+        <li>Cart Abandonment</li>
+        <li>Back in Stock</li>
+        <li>New Content</li>
+        <li>Special Offer</li>
+      </ul>
+    </section>
+
+    <!-- INTEGRATIONS -->
+    <section id="integrations" class="page">
+      <h1>Integrations</h1>
+      <p>Shopify • WhatsApp • Stripe • WordPress • Zapier</p>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="settings" class="page">
+      <h1>Settings</h1>
+      <p>Workspace | Branding | Team | Security</p>
+    </section>
+
+  </main>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h2>Create Campaign</h2>
+    <input maxlength="120" oninput="countChar(this)" placeholder="Title">
+    <small id="count">0/120</small>
+    <textarea placeholder="Message"></textarea>
+    <button onclick="createCampaign()">Create</button>
+  </div>
+</div>
+
+<div id="toast">Campaign Created ✅</div>
+
+<script>
+/* ================= NAVIGATION ================= */
+function showPage(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.sidebar a').forEach(a=>a.classList.remove('active'));
+  el.classList.add('active');
+}
+
+/* ================= MODAL ================= */
+function openModal(){ modal.style.display='block'; }
+function createCampaign(){
+  modal.style.display='none';
+  toast.style.display='block';
+  setTimeout(()=>toast.style.display='none',2000);
+}
+window.onclick=e=>{ if(e.target==modal) modal.style.display='none'; }
+
+/* ================= AI ================= */
+function generateAI(){
+  aiResult.innerText =
+   "🔥 Limited Time Offer! Click now before it's gone!";
+}
+
+/* ================= CHAR COUNT ================= */
+function countChar(el){
+  count.innerText = el.value.length + "/120";
+}
+
+/* ================= LIVE DATA ================= */
+setInterval(()=>{
+  subs.innerText = 12000 + Math.floor(Math.random()*500);
+},5000);
+</script>
+
+</body>
+</html>
